@@ -1,6 +1,6 @@
 "use strict";
 const request = require("request");
-
+const getMatrix = require("./getMatrix");
 const wemap_key = "vpstPRxkBBTLaZkOaCfAHlqXtCR";
 const graphhopper_key = "0d88a10e-a95c-45c7-a1ab-942c807b577e";
 /**
@@ -135,94 +135,6 @@ async function getAllPlaces(location, time, vehicle) {
   let places = await getPlaces(location, radius);
   return places;
 }
-
-/**
- * get id of Routing Optimized
- * @param {object}} data
- */
-async function getJobId(data) {
-  return new Promise((resolve, reject) => {
-    let dataString = JSON.stringify(data);
-    request(
-      {
-        url: "https://graphhopper.com/api/1/vrp/optimize",
-        // url: "https://apis.wemap.asia/route-api/route-api/vrp/optimize",
-        qs: {
-          key: graphhopper_key,
-        },
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: dataString,
-      },
-      (error, response) => {
-        if (error) {
-          console.log("get Routing Optimized Error: ", error);
-        } else {
-          console.log(response.body);
-          response = JSON.parse(response.body);
-          let job_id = response.job_id;
-          resolve(job_id);
-        }
-      }
-    );
-  });
-}
-
-/**
- * get solution routin optimized
- * @param {object}} data
- */
-async function getRoutingOptimized(data) {
-  let job_id = await getJobId(data);
-  return new Promise((resolve, reject) => {
-    request(
-      {
-        url: "https://graphhopper.com/api/1/vrp/solution/" + job_id,
-        qs: { key: graphhopper_key },
-      },
-      (error, response) => {
-        response = JSON.parse(response.body);
-        let solution = response.solution;
-        // console.log(response)
-        resolve(solution);
-      }
-    );
-  });
-}
-
-/**
- * convert data wemap to data graphHopper
- * @param {object}} data
- */
-function convertDataWeMapToGraphHopper(data) {
-  data = [data[4], data[29], data[3], data[25], data[5], data[1]];
-  // console.log("places: ", data.length, data);
-  var graphHopperData = [];
-  data.forEach((element) => {
-    let graphHopperElement = {
-      id: element.osm_id.toString(),
-      name: element.address.address29,
-      address: {
-        location_id: element.address.address29,
-        lat: parseFloat(element.lat),
-        lon: parseFloat(element.lon),
-      },
-    };
-    graphHopperData.push(graphHopperElement);
-  });
-  let start = [
-    {
-      vehicle_id: "my_vehicle",
-      start_address: graphHopperData[0].address,
-    },
-  ];
-  return {
-    vehicles: start,
-    services: graphHopperData,
-  };
-}
 /**
  * Get directions between the two locations
  * @param {string} url
@@ -230,32 +142,29 @@ function convertDataWeMapToGraphHopper(data) {
 async function getRoutingTwoPlaces(url) {
   return new Promise((resolve, reject) => {
     request(url, (error, response) => {
-      let body = JSON.parse(response.body);
-      let instructions = body.paths[0].instructions;
-      resolve(instructions);
+      if (error) {
+        console.log("error get Routing Two Places", error);
+      } else {
+        let body = JSON.parse(response.body);
+        let instructions = body.paths[0].instructions;
+        resolve(instructions);
+      }
     });
   });
 }
 /**
- * get directions through multiple locations
+ * get instrcution direction through multiple locations -  api graphHopper
  * @param {array} activities
  * @param {string} vehicle
  */
-async function getRouting(activities, vehicle = "car") {
+async function getInstruction(activities, vehicle = "car") {
   let url = "https://apis.wemap.asia/route-api/route?";
   let option =
     "type=json&locale=en-US&vehicle=" +
     vehicle +
     "&weighting=fastest&elevation=false&key=" +
     wemap_key;
-  let points = [];
-  var instructions = [];
-  activities.forEach((element) => {
-    let lat = element.address.lat.toString();
-    let lon = element.address.lon.toString();
-    let point = "point=" + lat + "," + lon + "&";
-    points.push(point);
-  });
+  let points = activities;
   for (let i = 0; i < points.length - 1; i++) {
     let local_url = url + points[i] + points[i + 1] + option;
     let instructionTwoPlaces = await getRoutingTwoPlaces(local_url);
@@ -270,7 +179,7 @@ async function getRouting(activities, vehicle = "car") {
   }
   return instructions;
 }
-function getRoutingOSRM(activities, vehicle) {
+async function getRoutingOSRM(activities, vehicle) {
   var instructions = [];
   let url = "https://apis.wemap.asia/direction-api/route/v1/";
   // let url = "https://apis.wemap.asia/direction-api/route/v1/";
@@ -297,14 +206,14 @@ function getRoutingOSRM(activities, vehicle) {
   let points = [];
 
   activities.forEach((element) => {
-    let lat = element.address.lat.toString();
-    let lon = element.address.lon.toString();
-    let point = lat + "," + lon;
+    let point = element.reverse().join(",");
     points.push(point);
   });
   points.pop();
   let poitsString = points.join(";");
   url = url + "/" + poitsString;
+  console.log(url);
+
   request(
     {
       url: url,
@@ -312,15 +221,49 @@ function getRoutingOSRM(activities, vehicle) {
         key: wemap_key,
         overview: "full",
         steps: true,
-        geometries: polyline,
+        geometries: "polyline",
       },
     },
     (error, response) => {
+      console.log("response getRouting OSRM: ", response.body);
       let data = JSON.parse(response.body);
-      let routes = data.routes[0];
-      let legs = routes.legs;
+      // let routes = data.routes[0];
+      // let legs = routes.legs;
+      // resolve(data)
+      return data;
     }
   );
+}
+
+function convertListCoordinates(places) {
+  var listCoordinates = [];
+  places.forEach((place) => {
+    let coordinates = [place.lat, place.lon];
+    listCoordinates.push(coordinates);
+  });
+  return listCoordinates;
+}
+
+async function getRoutingOptimized(matrixDistance) {
+  return new Promise((resolve, reject) => {
+    request(
+      {
+        url: "http://localhost:8080/optimizedRouting",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: matrixDistance.toString(),
+      },
+      (error, response) => {
+        if (error) {
+          resolve("error: ", error);
+        } else {
+          let data = response.body;
+          resolve(data);
+        }
+      }
+    );
+  });
 }
 /**
  * get all possible tours
@@ -329,24 +272,36 @@ function getRoutingOSRM(activities, vehicle) {
  */
 const getTours = async function (location, time) {
   location = location.split(",");
+  console.log("start location:", location);
   time = parseFloat(time);
   var tours = [];
   var places = await getAllPlaces(location, time);
-  var graphhopperData = convertDataWeMapToGraphHopper(places);
-  // console.log("places: ", places.length, places);
-  console.log("graphHoperData: ", graphhopperData.length, graphhopperData);
-  let solution = await getRoutingOptimized(graphhopperData);
-  let distance = solution.distance;
-  let time_travel = solution.time;
-  let activities = solution.routes[0].activities;
-  console.log("activities: ", activities);
-  // let instructions = await getRouting(activities);
-  // console.log("instructions: ", instructions);
+  places = places.slice(0, 3);
+  var listCoordinates = convertListCoordinates(places);
+  listCoordinates = listCoordinates.reverse();
+  listCoordinates.push(location);
+  listCoordinates = listCoordinates.reverse();
+  console.log("list places travel: ", listCoordinates);
+  var matrixDistance = await getMatrix(listCoordinates);
+  var routingOptimized = await getRoutingOptimized(matrixDistance);
+  routingOptimized = routingOptimized.split(",");
+  var routing = [];
+  for (let index = 0; index < routingOptimized.length; index++) {
+    let element = routingOptimized[index];
+    let place = listCoordinates[element];
+    routing.push(place);
+  }
+  console.log("Routing OPtimized: ", routing);
 
-  return solution;
+  var instructions = await getRoutingOSRM(routing);
+  console.log("get Routing: ", instructions);
+
+  return instructions;
 };
+
 (async () => {
-  let result = await getTours("21.0386920, 105.8223580", "10");
-  console.log(result);
+  let result = await getTours("21.0386920,105.8223580", "10");
+  console.log("result get Tour: ", result);
 })();
+
 module.exports = getTours;

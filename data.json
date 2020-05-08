@@ -1,0 +1,289 @@
+{
+  "places": [ [ "21.038692", "105.822358" ],
+  [ "21.039", "105.82" ],
+  [ "21.042262", "105.819889" ],
+  [ "21.035841", "105.82018" ] ],
+  "code": "Ok",
+  "waypoints": [
+    {
+      "hint": "-7EAgIRlBoBEAAAAPwAAAAAAAAAAAAAAmnrjQWJH0EEAAAAAAAAAAEQAAAA_AAAAAAAAAAAAAAASAAAAmLhOBn4GQQGWuE4GZAZBAQAAHxFtbUgW",
+      "distance": 2.886008,
+      "location": [105.82236, 21.038718],
+      "name": "Ngõ 279 Đội Cấn"
+    },
+    {
+      "hint": "6GcGgPBnBoAnAAAABwAAAAAAAAAKAAAAGOCCQXpNOUAAAAAAFDuJQCcAAAAHAAAAAAAAAAoAAAASAAAAaa9OBpcHQQFgr04GmAdBAQAAXwBtbUgW",
+      "distance": 0.94212,
+      "location": [105.820009, 21.038999],
+      "name": "Ngõ 189 Hoàng Hoa Thám"
+    },
+    {
+      "hint": "b5oIgAp2GIAaAAAAKwAAAB8AAAArAAAAj9kyQXmEi0EXTU5BNxyPQRoAAAArAAAAHwAAACsAAAASAAAA4a5OBr0TQQHxrk4GVhRBAQEAPxFtbUgW",
+      "distance": 17.020383,
+      "location": [105.819873, 21.042109],
+      "name": "Đường Hoàng Hoa Thám"
+    }
+  ],
+  "routes": [
+    {
+      "legs": [
+        {
+          "steps": [
+            {
+              "intersections": [
+                {
+                  "out": 0,
+                  "entry": [true],
+                  "location": [105.82236, 21.038718],
+                  "bearings": [273]
+                },
+                {
+                  "out": 2,
+                  "in": 0,
+                  "entry": [false, true, true],
+                  "location": [105.82211, 21.038732],
+                  "bearings": [90, 195, 270]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "_cl_Cwl{dSAp@Ab@KzBAVAPANAL?L?JBJDHHH",
+              "duration": 54.9,
+              "distance": 181.1,
+              "name": "Ngõ 279 Đội Cấn",
+              "weight": 54.9,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 273,
+                "bearing_before": 0,
+                "type": "depart",
+                "location": [105.82236, 21.038718]
+              }
+            },
+            {
+              "intersections": [
+                {
+                  "out": 0,
+                  "in": 1,
+                  "entry": [true, false, true],
+                  "location": [105.820662, 21.038736],
+                  "bearings": [15, 45, 180]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "ccl_Ccb{dSi@G",
+              "duration": 14.9,
+              "distance": 24.5,
+              "name": "",
+              "weight": 14.9,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 9,
+                "location": [105.820662, 21.038736],
+                "type": "turn",
+                "bearing_before": 222,
+                "modifier": "sharp right"
+              }
+            },
+            {
+              "intersections": [
+                {
+                  "out": 2,
+                  "in": 1,
+                  "entry": [true, false, true],
+                  "location": [105.820703, 21.038953],
+                  "bearings": [45, 195, 270]
+                },
+                {
+                  "out": 2,
+                  "in": 0,
+                  "entry": [false, true, true],
+                  "location": [105.820469, 21.038955],
+                  "bearings": [90, 180, 300]
+                },
+                {
+                  "out": 0,
+                  "in": 2,
+                  "entry": [true, true, false],
+                  "location": [105.820356, 21.039221],
+                  "bearings": [0, 90, 180]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "mdl_Ckb{dSAN?\\CLGDY@M?YB@P@x@",
+              "duration": 37.3,
+              "distance": 113.4,
+              "name": "",
+              "weight": 37.3,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 275,
+                "location": [105.820703, 21.038953],
+                "type": "turn",
+                "bearing_before": 9,
+                "modifier": "left"
+              }
+            },
+            {
+              "intersections": [
+                {
+                  "out": 1,
+                  "in": 0,
+                  "entry": [false, true, true],
+                  "location": [105.81996, 21.03933],
+                  "bearings": [90, 165, 345]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "yfl_Cw}zdSh@GJ?DAD?",
+              "duration": 8.9,
+              "distance": 37.3,
+              "name": "Ngõ 189 Hoàng Hoa Thám",
+              "weight": 8.9,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 170,
+                "location": [105.81996, 21.03933],
+                "type": "end of road",
+                "bearing_before": 267,
+                "modifier": "left"
+              }
+            },
+            {
+              "intersections": [
+                {
+                  "in": 0,
+                  "entry": [true],
+                  "location": [105.820009, 21.038999],
+                  "bearings": [6]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "wdl_Ca~zdS",
+              "duration": 0,
+              "distance": 0,
+              "name": "Ngõ 189 Hoàng Hoa Thám",
+              "weight": 0,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 0,
+                "bearing_before": 186,
+                "type": "arrive",
+                "location": [105.820009, 21.038999]
+              }
+            }
+          ],
+          "weight": 116,
+          "distance": 356.3,
+          "summary": "Ngõ 279 Đội Cấn, Ngõ 189 Hoàng Hoa Thám",
+          "duration": 116
+        },
+        {
+          "steps": [
+            {
+              "intersections": [
+                {
+                  "out": 0,
+                  "entry": [true],
+                  "location": [105.820009, 21.038999],
+                  "bearings": [6]
+                },
+                {
+                  "out": 0,
+                  "in": 1,
+                  "entry": [true, false, true],
+                  "location": [105.820179, 21.041038],
+                  "bearings": [15, 195, 285]
+                },
+                {
+                  "out": 0,
+                  "in": 2,
+                  "entry": [true, true, false],
+                  "location": [105.820367, 21.041443],
+                  "bearings": [30, 105, 210]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "wdl_Ca~zdSE?E@K?i@FQBg@Ti@Si@M[AE?[AM?IAE?i@GMCs@Q_@IOG_@SOGm@o@USKE",
+              "duration": 97.2,
+              "distance": 354.5,
+              "name": "Ngõ 189 Hoàng Hoa Thám",
+              "weight": 97.2,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 6,
+                "bearing_before": 0,
+                "type": "depart",
+                "location": [105.820009, 21.038999]
+              }
+            },
+            {
+              "intersections": [
+                {
+                  "out": 2,
+                  "in": 1,
+                  "entry": [true, false, true],
+                  "location": [105.820783, 21.041924],
+                  "bearings": [105, 210, 285]
+                },
+                {
+                  "out": 2,
+                  "in": 0,
+                  "entry": [false, true, true],
+                  "location": [105.820103, 21.042084],
+                  "bearings": [105, 180, 270]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "_wl_C{b{dSGZKn@Ij@ANCVAT",
+              "duration": 23.1,
+              "distance": 96.9,
+              "name": "Đường Hoàng Hoa Thám",
+              "weight": 23.1,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 284,
+                "location": [105.820783, 21.041924],
+                "type": "end of road",
+                "bearing_before": 23,
+                "modifier": "left"
+              }
+            },
+            {
+              "intersections": [
+                {
+                  "in": 0,
+                  "entry": [true],
+                  "location": [105.819873, 21.042109],
+                  "bearings": [96]
+                }
+              ],
+              "driving_side": "right",
+              "geometry": "exl_Ce}zdS",
+              "duration": 0,
+              "distance": 0,
+              "name": "Đường Hoàng Hoa Thám",
+              "weight": 0,
+              "mode": "cycling",
+              "maneuver": {
+                "bearing_after": 0,
+                "location": [105.819873, 21.042109],
+                "type": "arrive",
+                "bearing_before": 276,
+                "modifier": "right"
+              }
+            }
+          ],
+          "weight": 120.3,
+          "distance": 451.4,
+          "summary": "Ngõ 189 Hoàng Hoa Thám, Đường Hoàng Hoa Thám",
+          "duration": 120.3
+        }
+      ],
+      "weight_name": "duration",
+      "geometry": "_cl_Cwl{dSAp@Ab@KzBAVAPANAL?L?JBJDHHHi@GAN?\\CLGDY@M?YB@P@x@h@GJ?DAD?E?E@K?i@FQBg@Ti@Si@M[AE?[AM?IAE?i@GMCs@Q_@IOG_@SOGm@o@USKEGZKn@Ij@ANCVAT",
+      "weight": 236.3,
+      "distance": 807.7,
+      "duration": 236.3
+    }
+  ]
+}
